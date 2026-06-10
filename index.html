@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Briefsmith — Forge better briefs. Build better software.</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app">
+
+    <!-- ── Left column: guided form ── -->
+    <div class="left-col">
+      <div class="left-header">
+        <h1 id="app-title"></h1>
+        <p id="app-tagline"></p>
+      </div>
+
+      <div id="step-pills" class="step-pills" role="list" aria-label="Steps"></div>
+
+      <div id="form-area" class="form-area" aria-live="polite"></div>
+
+      <div class="nav-footer">
+        <button id="btn-prev" type="button" class="btn btn-secondary">← Back</button>
+        <button id="btn-next" type="button" class="btn btn-primary">Next →</button>
+      </div>
+    </div>
+
+    <!-- ── Right column: live preview ── -->
+    <div class="right-col">
+      <div class="preview-header">
+        <div class="score-row">
+          <span class="score-title">Prompt quality</span>
+          <div class="score-right">
+            <span id="score-tag" class="score-tag">Needs more detail</span>
+            <span id="score-label" class="score-number score-red">0 / 100</span>
+          </div>
+          <button id="btn-dark-mode" type="button" class="btn-dark-toggle" aria-label="Toggle dark mode">🌙</button>
+        </div>
+        <div class="score-bar-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div id="score-bar-fill" class="score-bar-fill score-red"></div>
+        </div>
+      </div>
+
+      <div class="preview-blocks">
+
+        <div class="preview-block">
+          <div class="preview-block-label">Concept</div>
+          <div id="preview-concept" class="preview-block-content preview-block-empty">
+            <em>Project name, description, and stack will appear here.</em>
+          </div>
+        </div>
+
+        <div class="preview-block">
+          <div class="preview-block-label">Behavior</div>
+          <div id="preview-behavior" class="preview-block-content preview-block-empty">
+            <em>What the app does and what it doesn't do will appear here.</em>
+          </div>
+        </div>
+
+        <div class="preview-block">
+          <div class="preview-block-label">Structure</div>
+          <div id="preview-structure" class="preview-block-content preview-block-empty monospace">
+            <em>File and folder structure will appear here.</em>
+          </div>
+        </div>
+
+        <div class="preview-block">
+          <div class="preview-block-label">Data Model</div>
+          <div id="preview-datamodel" class="preview-block-content preview-block-empty monospace">
+            <em>Data model will appear here.</em>
+          </div>
+        </div>
+
+        <div class="preview-block">
+          <div class="preview-block-label">Constraints</div>
+          <div id="preview-constraints" class="preview-block-content preview-block-empty">
+            <em>Constraints and error handling will appear here.</em>
+          </div>
+        </div>
+
+        <div class="preview-block">
+          <div class="preview-block-label">Build Order</div>
+          <div id="preview-buildorder" class="preview-block-content preview-block-empty">
+            <em>Build order will appear here.</em>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="copy-section">
+        <div class="copy-actions">
+          <button id="btn-save" type="button" class="btn btn-save" disabled>Save brief</button>
+          <button id="btn-copy" type="button" class="btn btn-copy">Copy full prompt</button>
+        </div>
+        <div id="save-status" class="save-status" aria-live="polite"></div>
+        <div id="copy-error" class="copy-error" aria-live="polite"></div>
+        <div class="copy-footer-row">
+          <button id="btn-saved-briefs" type="button" class="saved-briefs-toggle">
+            Saved briefs <span id="saved-briefs-count" class="saved-briefs-count" style="display:none"></span>
+          </button>
+          <a id="start-over" href="#" class="start-over-link">Start over</a>
+        </div>
+      </div>
+
+      <div id="saved-briefs-drawer" class="saved-briefs-drawer" hidden>
+        <div class="drawer-header">
+          <span class="drawer-title">Saved Briefs</span>
+          <button id="btn-close-drawer" type="button" class="btn-icon-close" aria-label="Close">✕</button>
+        </div>
+        <div id="drawer-body" class="drawer-body"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scripts loaded in dependency order -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/score.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/steps.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
