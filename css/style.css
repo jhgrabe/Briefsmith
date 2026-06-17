@@ -921,6 +921,25 @@ textarea.field-input {
   text-decoration: underline;
 }
 
+/* ── Donate row ───────────────────────────────────────────────────────────── */
+
+.donate-row {
+  text-align: center;
+  padding-top: 2px;
+}
+
+.donate-link {
+  font-size: 11px;
+  color: var(--text-faint);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.donate-link:hover {
+  color: var(--brand);
+  text-decoration: underline;
+}
+
 /* ── Scrollbar styling (non-intrusive) ────────────────────────────────────── */
 
 .form-area::-webkit-scrollbar,
