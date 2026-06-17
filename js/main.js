@@ -5,6 +5,7 @@ import { render, forceFormRebuild, assembleFullPrompt } from './render.js';
 import { db } from './db.js';
 import { calculateScore } from './score.js';
 import { toggleTip, next, prev, startOver, toggleSavedBriefsPanel } from './steps.js';
+import { initGuardian } from './guardian.js';
 
 document.addEventListener("DOMContentLoaded", function() {
 
@@ -75,6 +76,20 @@ document.addEventListener("DOMContentLoaded", function() {
   // ── 8. Supabase init ─────────────────────────────────────────────────────
 
   db.init();
+
+  // ── 8c. Guardian (inspiration panel) ────────────────────────────────────
+
+  initGuardian();
+
+  // ── 8d. Donation success state ───────────────────────────────────────────
+
+  if (new URLSearchParams(window.location.search).get("donated") === "1") {
+    var thanksEl = document.getElementById("donate-thanks");
+    var linkEl   = document.getElementById("donate-link");
+    if (thanksEl) thanksEl.removeAttribute("hidden");
+    if (linkEl)   linkEl.setAttribute("hidden", "");
+    history.replaceState(null, "", window.location.pathname);
+  }
 
   // ── 8b. Dark mode toggle ──────────────────────────────────────────────────
 

@@ -25,7 +25,8 @@
         <button id="btn-next" type="button" class="btn btn-primary">Next →</button>
       </div>
       <div class="donate-row">
-        <a href="https://buy.stripe.com/3cI6oGdnj6rs6a5bIkgIo00" target="_blank" rel="noopener noreferrer" class="donate-link">♥ Support Briefsmith — pay what you want</a>
+        <span id="donate-thanks" class="donate-thanks" hidden>♥ Thank you for supporting Briefsmith!</span>
+        <a id="donate-link" href="https://buy.stripe.com/3cI6oGdnj6rs6a5bIkgIo00" target="_blank" rel="noopener noreferrer" class="donate-link">♥ Support Briefsmith — pay what you want</a>
       </div>
     </div>
 
@@ -86,6 +87,20 @@
           <div class="preview-block-label">Build Order</div>
           <div id="preview-buildorder" class="preview-block-content preview-block-empty">
             <em>Build order will appear here.</em>
+          </div>
+        </div>
+
+        <div class="inspiration-panel">
+          <div class="inspiration-header">
+            <span class="inspiration-title">Inspiration</span>
+            <span class="inspiration-subtitle">Real-world context for your brief</span>
+          </div>
+          <div class="inspiration-search-row">
+            <input id="inspiration-input" type="text" class="inspiration-input" placeholder='Search a topic (e.g. "fintech", "AI tooling")…' />
+            <button id="btn-inspiration-search" type="button" class="btn-inspiration-search">Search</button>
+          </div>
+          <div id="inspiration-results" class="inspiration-results">
+            <p class="inspiration-loading">Loading tech headlines…</p>
           </div>
         </div>
 
