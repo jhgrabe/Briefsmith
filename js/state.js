@@ -1,4 +1,7 @@
-const state = {
+import { storage } from './storage.js';
+import { render } from './render.js';
+
+export const state = {
   currentStep: 1,
   completedSteps: [],
   openTips: [],
@@ -20,7 +23,7 @@ const state = {
   }
 };
 
-function updateField(key, value) {
+export function updateField(key, value) {
   state.fields[key] = value;
   storage.save(state);
   render();

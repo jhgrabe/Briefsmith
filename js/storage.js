@@ -2,7 +2,7 @@
 // If localStorage is unavailable (private browsing, blocked, quota exceeded),
 // the app continues in-memory and no error is shown to the user.
 
-var storage = (function() {
+export const storage = (function() {
   var KEY = "briefsmith_v1";
 
   function save(state) {

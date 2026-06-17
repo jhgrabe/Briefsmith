@@ -1,4 +1,4 @@
-function calculateScore(fields) {
+export function calculateScore(fields) {
   function nonEmptyLines(text) {
     return text.trim().split("\n").filter(function(l) { return l.trim().length > 0; }).length;
   }

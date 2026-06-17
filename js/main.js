@@ -1,3 +1,11 @@
+import { storage } from './storage.js';
+import { state } from './state.js';
+import { updateField } from './state.js';
+import { render, forceFormRebuild, assembleFullPrompt } from './render.js';
+import { db } from './db.js';
+import { calculateScore } from './score.js';
+import { toggleTip, next, prev, startOver, toggleSavedBriefsPanel } from './steps.js';
+
 document.addEventListener("DOMContentLoaded", function() {
 
   // ── 1. Restore saved draft ──────────────────────────────────────────────
@@ -23,7 +31,6 @@ document.addEventListener("DOMContentLoaded", function() {
   render();
 
   // ── 3. Form input — event delegation on the form container ─────────────
-  // Using delegation means these listeners survive render() rebuilding the form.
 
   var formArea = document.getElementById("form-area");
 

@@ -1,7 +1,7 @@
-const APP_TITLE = "Briefsmith";
-const APP_TAGLINE = "Forge better briefs. Build better software.";
+export const APP_TITLE = "Briefsmith";
+export const APP_TAGLINE = "Forge better briefs. Build better software.";
 
-const STEPS = [
+export const STEPS = [
   {
     id: 1,
     label: "Identity",

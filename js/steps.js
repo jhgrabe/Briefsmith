@@ -1,9 +1,12 @@
-// Step navigation — never reads/writes DOM directly, only mutates state then calls render()
+import { state } from './state.js';
+import { STEPS } from './data.js';
+import { storage } from './storage.js';
+import { render, forceFormRebuild } from './render.js';
+import { db } from './db.js';
 
-function next() {
+export function next() {
   var current = state.currentStep;
 
-  // Mark this step as completed (idempotent)
   if (state.completedSteps.indexOf(current) === -1) {
     state.completedSteps.push(current);
   }
@@ -11,19 +14,14 @@ function next() {
   if (current < STEPS.length) {
     state.currentStep = current + 1;
   }
-  // On the last step "Done" just marks it complete and stays
 
-  // Clear open tips on step change — tips are not persisted
   state.openTips = [];
-
-  // Force form rebuild by clearing the DOM's cached step
   forceFormRebuild();
-
   storage.save(state);
   render();
 }
 
-function prev() {
+export function prev() {
   if (state.currentStep > 1) {
     state.currentStep--;
     state.openTips = [];
@@ -33,8 +31,7 @@ function prev() {
   }
 }
 
-function jumpTo(stepId) {
-  // Can only jump to a step that has been completed
+export function jumpTo(stepId) {
   if (state.completedSteps.indexOf(stepId) === -1) return;
   if (stepId === state.currentStep) return;
 
@@ -45,18 +42,17 @@ function jumpTo(stepId) {
   render();
 }
 
-function toggleTip(fieldKey) {
+export function toggleTip(fieldKey) {
   var idx = state.openTips.indexOf(fieldKey);
   if (idx === -1) {
     state.openTips.push(fieldKey);
   } else {
     state.openTips.splice(idx, 1);
   }
-  // openTips is NOT persisted to localStorage — do not call storage.save here
   render();
 }
 
-function startOver() {
+export function startOver() {
   state.currentStep = 1;
   state.completedSteps = [];
   state.openTips = [];
@@ -72,14 +68,7 @@ function startOver() {
   render();
 }
 
-// Clears the DOM data attribute that render() uses to decide whether to rebuild.
-// Call before render() whenever the step changes.
-function forceFormRebuild() {
-  var formArea = document.getElementById("form-area");
-  if (formArea) formArea.dataset.renderedStep = "0";
-}
-
-function toggleSavedBriefsPanel() {
+export function toggleSavedBriefsPanel() {
   state.savedBriefsPanelOpen = !state.savedBriefsPanelOpen;
   if (state.savedBriefsPanelOpen) {
     loadAndRenderSavedBriefs();

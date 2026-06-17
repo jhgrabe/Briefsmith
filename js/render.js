@@ -1,8 +1,10 @@
-// render() is the only function that writes to the DOM.
-// It reads state and data.js, never modifies state.
-// Form HTML is rebuilt only when the step changes — preserves focus/cursor on keystroke.
+import { state } from './state.js';
+import { APP_TITLE, APP_TAGLINE, STEPS } from './data.js';
+import { calculateScore } from './score.js';
+import { db } from './db.js';
+import { jumpTo } from './steps.js';
 
-function render() {
+export function render() {
   renderHeader();
   renderPills();
   renderFormStep();
@@ -64,7 +66,6 @@ function renderFormStep() {
   var container = document.getElementById("form-area");
   if (!container) return;
 
-  // Only rebuild form HTML when step changes — preserves focus and cursor position
   var renderedStep = parseInt(container.dataset.renderedStep, 10) || 0;
   if (renderedStep === state.currentStep) return;
   container.dataset.renderedStep = state.currentStep;
@@ -86,14 +87,12 @@ function renderFormStep() {
     var fieldGroup = document.createElement("div");
     fieldGroup.className = "field-group";
 
-    // 1. Field label
     var label = document.createElement("label");
     label.className = "field-label";
     label.setAttribute("for", "field-" + field.key);
     label.textContent = field.label;
     fieldGroup.appendChild(label);
 
-    // 2. "Why this matters" badge
     var tipRow = document.createElement("div");
     tipRow.className = "tip-row";
 
@@ -115,7 +114,6 @@ function renderFormStep() {
     tipRow.appendChild(tipBadge);
     fieldGroup.appendChild(tipRow);
 
-    // Tip panel (shown/hidden by updateTipVisibility)
     var tipPanel = document.createElement("div");
     tipPanel.id = "tip-" + field.key;
     tipPanel.className = "tip-panel";
@@ -123,13 +121,11 @@ function renderFormStep() {
     tipPanel.textContent = step.tip;
     fieldGroup.appendChild(tipPanel);
 
-    // 3. Hint text
     var hint = document.createElement("p");
     hint.className = "field-hint";
     hint.textContent = field.hint;
     fieldGroup.appendChild(hint);
 
-    // 4. Input or textarea
     var input;
     if (field.multiline) {
       input = document.createElement("textarea");
@@ -150,7 +146,6 @@ function renderFormStep() {
     container.appendChild(fieldGroup);
   });
 
-  // 5. Callouts after all fields
   step.callouts.forEach(function(callout) {
     var calloutEl = document.createElement("div");
     calloutEl.className = "callout callout-" + callout.type;
@@ -220,8 +215,6 @@ function renderNavButtons() {
   }
 }
 
-// ── Preview ──────────────────────────────────────────────────────────────────
-
 function renderPreview() {
   var f = state.fields;
 
@@ -241,7 +234,7 @@ function renderPreview() {
   setPreviewBlock(
     "preview-behavior",
     behaviorParts.join("\n"),
-    "What the app does and what it doesn’t do will appear here."
+    "What the app does and what it doesn't do will appear here."
   );
 
   setPreviewBlock(
@@ -276,7 +269,6 @@ function setPreviewBlock(id, content, emptyText) {
   var el = document.getElementById(id);
   if (!el) return;
 
-  // Clear safely
   while (el.firstChild) el.removeChild(el.firstChild);
 
   if (content && content.trim().length > 0) {
@@ -289,8 +281,6 @@ function setPreviewBlock(id, content, emptyText) {
     el.appendChild(em);
   }
 }
-
-// ── Score bar ─────────────────────────────────────────────────────────────────
 
 function renderScore() {
   var result = calculateScore(state.fields);
@@ -319,8 +309,6 @@ function renderScore() {
     tag.textContent = tagText;
   }
 }
-
-// ── Database UI ──────────────────────────────────────────────────────────────
 
 function renderDbStatus() {
   var btn = document.getElementById("btn-save");
@@ -424,9 +412,12 @@ function updateSavedBriefsCount(count) {
   }
 }
 
-// ── Prompt assembly (used by copy button) ────────────────────────────────────
+export function forceFormRebuild() {
+  var formArea = document.getElementById("form-area");
+  if (formArea) formArea.dataset.renderedStep = "0";
+}
 
-function assembleFullPrompt(fields) {
+export function assembleFullPrompt(fields) {
   var parts = [];
 
   if (fields.name) parts.push("# " + fields.name);
