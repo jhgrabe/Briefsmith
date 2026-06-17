@@ -925,18 +925,23 @@ textarea.field-input {
 
 .donate-row {
   text-align: center;
-  padding-top: 2px;
+  padding: 10px 32px 14px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+  background: var(--bg-left);
 }
 
 .donate-link {
-  font-size: 11px;
-  color: var(--text-faint);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--brand);
   text-decoration: none;
-  transition: color 0.15s;
+  transition: color 0.15s, opacity 0.15s;
+  opacity: 0.75;
 }
 
 .donate-link:hover {
-  color: var(--brand);
+  opacity: 1;
   text-decoration: underline;
 }
 
